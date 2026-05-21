@@ -3,65 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StepVault - Move to Earn Aggregator</title>
+    <title>StepVault — One Walk. Multiple Rewards. Lifetime Income.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { font-family: system-ui, sans-serif; margin: 0; padding: 40px; background: linear-gradient(135deg, #0f172a, #1e2937); color: #e2e8f0; line-height: 1.6; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        h1 { color: #67e8f9; font-size: 3rem; }
-        .section { background: rgba(15, 23, 42, 0.8); padding: 30px; border-radius: 20px; margin-bottom: 30px; border: 1px solid #67e8f9; }
-        input[type='range'] { width: 100%; }
-        .value { font-size: 1.5rem; font-weight: bold; color: #67e8f9; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .title { font-family: 'Space Grotesk', sans-serif; }
+        .hero-bg { background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%); }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>StepVault</h1>
-        <p style="font-size:1.3rem;">The Ultimate Move-to-Earn Aggregator</p>
+<body class="bg-zinc-950 text-white">
+    <div class="hero-bg py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <h1 class="title text-6xl font-semibold text-cyan-400 mb-2">StepVault</h1>
+            <p class="text-2xl text-zinc-400">The Ultimate Move-to-Earn Aggregator</p>
+            <p class="mt-8 max-w-2xl text-xl text-zinc-300">One walk triggers hundreds of Move-to-Earn apps. Verified wearables unlock premium earnings + lifetime data income.</p>
+        </div>
+    </div>
 
-        <div class="section">
-            <h2>Live Earnings Simulator</h2>
-            <p>Daily Steps: <span id="stepsVal">10000</span></p>
-            <input type="range" id="steps" min="1000" max="20000" value="10000" oninput="update()">
-            
-            <p>Active Move-to-Earn Apps: <span id="appsVal">5</span></p>
-            <input type="range" id="apps" min="3" max="30" value="5" oninput="update()">
-            
-            <h2 style="margin-top:20px;">Estimated Daily Earnings: <span id="earnings" class="value">$3.75</span></h2>
+    <div class="max-w-6xl mx-auto px-6 py-12 space-y-12">
+        <!-- Live Earnings Simulator -->
+        <div class="bg-zinc-900 rounded-3xl p-8 border border-cyan-500/30">
+            <h2 class="text-2xl font-semibold mb-6">Live Earnings Simulator</h2>
+            <div class="space-y-8">
+                <div>
+                    <div class="flex justify-between mb-2"><span>Daily Steps</span><span id="steps-value" class="font-mono">10,000</span></div>
+                    <input type="range" id="steps-slider" min="1000" max="20000" value="10000" step="1000" class="w-full accent-cyan-400">
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2"><span>Active Move-to-Earn Apps</span><span id="apps-value" class="font-mono">5</span></div>
+                    <input type="range" id="apps-slider" min="3" max="50" value="5" class="w-full accent-cyan-400">
+                </div>
+                <div class="bg-zinc-950 rounded-2xl p-6 text-center">
+                    <p class="text-zinc-400">Estimated Daily Earnings</p>
+                    <p id="earnings" class="text-5xl font-semibold text-emerald-400">$12.50</p>
+                </div>
+            </div>
         </div>
 
-        <div class="section">
-            <h2>AI Agent Allocation System</h2>
-            <button onclick="setPreset('earnings')">Max Daily Earnings Preset</button>
-            <button onclick="setPreset('nft')">Max NFT Value Preset</button>
-            <p id="presetStatus" style="margin-top:15px; font-weight:bold;"></p>
+        <!-- AI Agent Allocation System -->
+        <div class="bg-zinc-900 rounded-3xl p-8 border border-cyan-500/30">
+            <h2 class="text-2xl font-semibold mb-6">AI Agent Allocation System</h2>
+            <div class="flex gap-3 mb-6">
+                <button onclick="loadPreset('max-earnings')" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 rounded-2xl font-medium">Max Daily Earnings Preset</button>
+                <button onclick="loadPreset('max-nft')" class="px-6 py-3 bg-violet-500 hover:bg-violet-600 rounded-2xl font-medium">Max NFT Value Preset</button>
+            </div>
+            <div class="grid grid-cols-2 gap-6" id="allocation-sliders">
+                <!-- Sliders will be populated by JS -->
+            </div>
         </div>
 
-        <div class="section">
-            <h2>Subscription Tiers</h2>
-            <p><strong>$9/month</strong> - 3 apps</p>
-            <p><strong>$20/month</strong> - 10 apps</p>
-            <p><strong>$50/month</strong> - 25 apps + Full AI</p>
+        <!-- Subscription Tiers -->
+        <div class="bg-zinc-900 rounded-3xl p-8 border border-cyan-500/30">
+            <h2 class="text-2xl font-semibold mb-6">Subscription Tiers</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-zinc-950 rounded-2xl p-6 border border-zinc-700">
+                    <div class="text-cyan-400 font-medium">$9/month</div>
+                    <div class="text-2xl font-semibold mt-1">Base</div>
+                    <ul class="mt-6 space-y-3 text-sm">
+                        <li>3 Move-to-Earn apps</li>
+                        <li>Basic earnings</li>
+                        <li>$50 lifetime cap</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-950 rounded-2xl p-6 border border-zinc-700">
+                    <div class="text-cyan-400 font-medium">$20/month</div>
+                    <div class="text-2xl font-semibold mt-1">Growth</div>
+                    <ul class="mt-6 space-y-3 text-sm">
+                        <li>10 Move-to-Earn apps</li>
+                        <li>Higher earnings</li>
+                        <li>Still $50 cap</li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-br from-cyan-500 to-violet-500 text-white rounded-2xl p-6">
+                    <div class="font-medium">$50/month</div>
+                    <div class="text-2xl font-semibold mt-1">Premium</div>
+                    <ul class="mt-6 space-y-3 text-sm">
+                        <li>25+ apps + Full AI</li>
+                        <li>No cap</li>
+                        <li>Data NFT active</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data NFT Estimator -->
+        <div class="bg-zinc-900 rounded-3xl p-8 border border-cyan-500/30">
+            <h2 class="text-2xl font-semibold mb-6">Data NFT Passive Income Estimator</h2>
+            <div class="flex justify-between mb-2"><span>Walking Consistency (days with verified data)</span><span id="consistency-value" class="font-mono">180</span></div>
+            <input type="range" id="consistency-slider" min="30" max="730" value="180" class="w-full accent-cyan-400">
+            <div class="mt-8 bg-zinc-950 rounded-2xl p-6 text-center">
+                <p class="text-zinc-400">Estimated Monthly Passive Income</p>
+                <p id="nft-income" class="text-5xl font-semibold text-amber-400">$87</p>
+            </div>
         </div>
     </div>
 
     <script>
-        function update() {
-            const steps = parseInt(document.getElementById('steps').value);
-            const apps = parseInt(document.getElementById('apps').value);
-            document.getElementById('stepsVal').textContent = steps.toLocaleString();
-            document.getElementById('appsVal').textContent = apps;
-            
-            const earnings = (steps * apps * 0.00025).toFixed(2);
-            document.getElementById('earnings').textContent = '$' + earnings;
+        // Live Earnings Simulator
+        const stepsSlider = document.getElementById('steps-slider');
+        const appsSlider = document.getElementById('apps-slider');
+        const earningsEl = document.getElementById('earnings');
+
+        function updateEarnings() {
+            const steps = parseInt(stepsSlider.value);
+            const apps = parseInt(appsSlider.value);
+            const daily = (steps / 10000) * apps * 2.5;
+            earningsEl.textContent = '$' + daily.toFixed(2);
+            document.getElementById('steps-value').textContent = steps.toLocaleString();
+            document.getElementById('apps-value').textContent = apps;
+        }
+        stepsSlider.addEventListener('input', updateEarnings);
+        appsSlider.addEventListener('input', updateEarnings);
+        updateEarnings();
+
+        // AI Allocation System
+        const categories = [
+            {name: "Reinvest", color: "emerald"},
+            {name: "Repair", color: "amber"},
+            {name: "Buy Resources", color: "blue"},
+            {name: "Craft/Buy NFTs", color: "violet"},
+            {name: "Stake", color: "cyan"},
+            {name: "Sell/Convert", color: "rose"}
+        ];
+
+        function createSliders() {
+            const container = document.getElementById('allocation-sliders');
+            container.innerHTML = '';
+            categories.forEach(cat => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <div class="flex justify-between mb-1 text-sm">
+                        <span>${cat.name}</span>
+                        <span class="allocation-value font-mono" data-name="${cat.name}">25%</span>
+                    </div>
+                    <input type="range" min="5" max="100" value="25" class="w-full accent-${cat.color}-400" data-name="${cat.name}">
+                `;
+                container.appendChild(div);
+            });
         }
 
-        function setPreset(mode) {
-            const msg = mode === 'earnings' ? 'Max Daily Earnings Mode Activated' : 'Max NFT Value Mode Activated';
-            document.getElementById('presetStatus').textContent = msg;
+        function loadPreset(mode) {
+            createSliders();
+            const sliders = document.querySelectorAll('#allocation-sliders input[type="range"]');
+            if (mode === 'max-earnings') {
+                sliders[0].value = 45; // Reinvest
+                sliders[1].value = 10; // Repair
+                sliders[2].value = 10;
+                sliders[3].value = 10;
+                sliders[4].value = 10;
+                sliders[5].value = 15; // Sell
+            } else {
+                sliders[0].value = 15;
+                sliders[1].value = 10;
+                sliders[2].value = 30; // Resources
+                sliders[3].value = 30; // NFTs
+                sliders[4].value = 10;
+                sliders[5].value = 5;
+            }
+            updateAllocations();
         }
 
-        // Initialize
-        window.onload = update;
+        function updateAllocations() {
+            document.querySelectorAll('.allocation-value').forEach(el => {
+                const name = el.getAttribute('data-name');
+                const slider = document.querySelector(`input[data-name="${name}"]`);
+                el.textContent = slider.value + '%';
+            });
+        }
+
+        // Data NFT Estimator
+        const consistencySlider = document.getElementById('consistency-slider');
+        const nftIncomeEl = document.getElementById('nft-income');
+        function updateNFT() {
+            const days = parseInt(consistencySlider.value);
+            const income = Math.round(days * 0.48);
+            nftIncomeEl.textContent = '$' + income;
+            document.getElementById('consistency-value').textContent = days;
+        }
+        consistencySlider.addEventListener('input', updateNFT);
+        updateNFT();
+
+        // Initial load
+        createSliders();
+        updateAllocations();
+        document.querySelectorAll('#allocation-sliders input[type="range"]').forEach(slider => {
+            slider.addEventListener('input', updateAllocations);
+        });
     </script>
 </body>
 </html>
